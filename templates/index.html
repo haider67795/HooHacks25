@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -137,26 +138,26 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
     }
 
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
 
-    .card-content {
-      padding: 15px;
-    }
+        .card-content {
+            padding: 15px;
+        }
 
-    .card-content h3 {
-      margin: 0 0 8px 0;
-      color: var(--uva-blue);
-      font-size: 18px;
-    }
+        .card-content h3 {
+            margin: 0 0 8px 0;
+            color: var(--uva-blue);
+            font-size: 18px;
+        }
 
-    .card-content p {
-      margin: 4px 0;
-      font-size: 14px;
-    }
+        .card-content p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
 
     form {
       background-color: white;
@@ -168,32 +169,33 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     }
 
-    form label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
 
-    form input, form textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-    }
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
 
-    form button {
-      margin-top: 20px;
-      padding: 12px 24px;
-      background-color: var(--uva-orange);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 16px;
-    }
+        form button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: var(--uva-orange);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
 
     footer {
       background-color: #000;
@@ -203,19 +205,20 @@
       font-size: 14px;
     }
 
-    footer .contacts {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 10px;
-    }
+        footer .contacts {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 10px;
+        }
 
-    footer .contacts div {
-      line-height: 1.5;
-    }
-  </style>
+        footer .contacts div {
+            line-height: 1.5;
+        }
+    </style>
 </head>
+
 <body>
 
   <nav>
@@ -258,24 +261,24 @@
       <label for="description">Item Description:</label>
       <textarea id="description" rows="3" required></textarea>
 
-      <label for="location">Last Seen Location:</label>
-      <input type="text" id="location" required>
+            <label for="location">Last Seen Location:</label>
+            <input type="text" id="location" required>
 
-      <label for="photo">Upload Photo:</label>
-      <input type="file" id="photo" accept="image/*" required>
+            <label for="photo">Upload Photo:</label>
+            <input type="file" id="photo" accept="image/*" required>
 
-      <button type="submit">Submit Report</button>
-    </form>
-  </section>
+            <button type="submit">Submit Report</button>
+        </form>
+    </section>
 
-  <footer>
-    <div>Made with 💙🧡 by Team LostHoos</div>
-    <div class="contacts">
-      <div><strong>Alex</strong><br>alex@example.com</div>
-      <div><strong>Jamie</strong><br>jamie@example.com</div>
-      <div><strong>Sam</strong><br>sam@example.com</div>
-    </div>
-  </footer>
+    <footer>
+        <div>Made with 💙🧡 by Team LostHoos</div>
+        <div class="contacts">
+            <div><strong>Alex</strong><br>alex@example.com</div>
+            <div><strong>Jamie</strong><br>jamie@example.com</div>
+            <div><strong>Sam</strong><br>sam@example.com</div>
+        </div>
+    </footer>
 
   <script>
     const sampleItems = [
@@ -299,32 +302,67 @@
       }
     ];
 
-    function displayItems(items) {
-      const itemList = document.getElementById('item-list');
-      itemList.innerHTML = '';
-      items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="${item.imageUrl}" alt="Lost item image">
-          <div class="card-content">
-            <h3>${item.name}</h3>
-            <p><strong>Location:</strong> ${item.location}</p>
-            <p>${item.description}</p>
-          </div>
-        `;
-        itemList.appendChild(card);
-      });
-    }
+        // Function to display items dynamically in the HTML
+        function displayItems(items) {
+            const itemList = document.getElementById('item-list');
+            itemList.innerHTML = '';  // Clear the existing items first
 
-    document.getElementById('report-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      alert("Form submitted! Integration with backend coming soon.");
-    });
+            // Loop through the fetched items and create HTML for each
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
 
-    window.onload = function () {
-      displayItems(sampleItems);
-    };
-  </script>
+                // Ensure the image path is correctly set to /uploads/<filename>
+                const imageUrl = item.photo_filename ? `/uploads/${item.photo_filename}` : 'media/lost-item-placeholder.jpg';
+
+                card.innerHTML = `
+                    <img src="${imageUrl}" alt="Lost item image">
+                    <div class="card-content">
+                        <h3>${item.description}</h3>
+                        <p><strong>Location:</strong> ${item.location}</p>
+                        <p>${item.description}</p>
+                    </div>
+                `;
+                itemList.appendChild(card);
+            });
+        }
+
+        // Handle the form submission for reporting an item
+        document.getElementById('report-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form data
+            const description = document.getElementById('description').value;
+            const location = document.getElementById('location').value;
+            const photo = document.getElementById('photo').files[0];  // Get the uploaded photo file
+
+            const formData = new FormData();
+            formData.append('description', description);
+            formData.append('location', location);
+            formData.append('photo', photo);
+
+            // Send a POST request to report the item
+            fetch('/api/report', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message); // Show success message
+                    fetchTopItems();  // Reload the list of top items
+                })
+                .catch(error => {
+                    console.error('Error reporting item:', error);
+                    alert('Something went wrong. Please try again.');
+                });
+        });
+
+        // Fetch and display the items when the page loads
+        window.onload = function () {
+            fetchTopItems();
+        };
+    </script>
+
 </body>
+
 </html>
