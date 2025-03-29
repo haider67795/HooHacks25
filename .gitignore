@@ -1,1 +1,5 @@
 database.db
+media/
+uploads/
+venv/
+__pycache__/
