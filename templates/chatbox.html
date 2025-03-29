@@ -10,17 +10,74 @@
         <link rel="stylesheet" href="styles.css">
 
 </head>
+
 <body>
+    
     <header>
         <!-- Logo placed inside a header -->
-        <img src="../media/Hoos_Lost.png" alt="Hoos Lost" class="logo" style="width: 100px; height: 100px; padding: 10px; float: left;">    </header>
+        <img src="../media/Hoos_Lost.png" alt="Hoos Lost" class="logo" style="width: 90px; height: 90px; padding: 0px; float: left; right: 100px;">    </header>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+
         }
+         /* Left half for the slideshow */
+         .slideshow-container {
+            position: absolute;
+            width: 700px; /* Make it full width of the container */
+            bottom:20px;
+            left: 100px;
+            height: 675px; /* Set a fixed height for the slideshow */
+            overflow: hidden; /* Hide images outside the container */
+            margin: auto; /* Center the slideshow horizontally */
+            border: 3px solid #2a3d66; /* Add a border with a dark color */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for the box */
+            padding: 10px; /* Padding inside the box */
+            background-color: #fff; /* White background inside the box */
+            display: flex; /* Use flexbox to center the images */
+            justify-content: center; /* Center the images horizontally */
+            align-items: center;
+        }
+
+        /* Make the images in a row for sliding */
+        .slideshow-images {
+            display: flex;
+            transition: transform 1s ease;  /* Smooth transition for sliding */
+            width: 100%;
+            height: 100%;
+        }
+
+        .mySlides {
+            flex: 0 0 100%;  /* Each image takes up 100% width */
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .slideshow-container img {
+            width: 100%; /* Make the image fill the container's width */
+            height: 80%; /* Make the image fill the container's height */
+            object-fit: contain; /* Ensure the image covers the area while maintaining its aspect ratio */
+        }
+
+        /* Right half for chat content */
+        .content-container {
+            flex: 1;
+            padding: 20px;
+            background-color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
         header {
             background-color: #2a3d66;
             color: white;
@@ -31,13 +88,14 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            text-align: center;
         }
         .chatbox {
             position: fixed;
             bottom: 20px;
-            right: 75px;
+            right: 100px;
             width: 700px;
-            height: 450px;
+            height: 700px;
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -87,14 +145,12 @@
 </head>
 <body>
     <header>
-        <h1>Lost and Found</h1>
-        <p>Your trusted platform lost items!</p>
+        <h1>Nav Bar</h1>
     </header>
 
     <div class="container">
-        <h2>Welcome to the Lost and Found Platform! </h2>
+        <h2>Chat with our support assistant for further help! </h2>
         
-        <p>On this platform, you can find lost items, report lost items, and chat with our support assistant for further help.</p>
     </div>
 
     <!-- Chatbox Section -->
@@ -131,6 +187,52 @@
                 }, 1000);
             }
         });
+    </script>
+</body>
+<body>
+    <!-- Slideshow Section on the left -->
+    <div class="slideshow-container">
+        <div class ="slideshow-images"
+            <!-- 10 Images for the slideshow -->
+            <div class="mySlides fade">
+                <img src="../media/airpods.jpeg" alt="Image 1">
+            </div>
+            <div class="mySlides fade">
+                <img src="../media/Hoos_Lost.png" alt="Image 2">
+            </div>
+            <div class="mySlides fade">
+                <img src="../media/airpods.jpeg" alt="Image 3">
+            </div>
+            <div class="mySlides fade">
+                <img src="../media/Hoos_Lost.png" alt="Image 4">
+            </div>
+            <div class="mySlides fade">
+                <img src="../media/airpods.jpeg" alt="Image 5">
+            </div>
+        </div>
+    </div>
+    <script>
+        let slideIndex = 0;
+        let slides = document.getElementsByClassName("mySlides");
+        let slideshowImages = document.querySelector(".slideshow-images");
+
+        function showSlides() {
+            slideIndex++;
+            if (slideIndex > slides.length - 1) {
+                slideIndex = 0; // Reset to the first image
+                slideshowImages.style.transition = 'none';  // Disable transition for immediate reset
+                slideshowImages.style.transform = `translateX(0%)`;  // Immediately reset to the first image
+                setTimeout(() => {
+                    slideshowImages.style.transition = 'transform 1s ease';  // Re-enable transition after reset
+                }, 50);  // Delay to allow transition re-enable
+            } else {
+                slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;  // Slide to the next image
+            }
+
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
+
+        showSlides();   // Initialize the slideshow
     </script>
 </body>
 </html>
