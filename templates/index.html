@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>UVA Lost & Found</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
   <style>
     :root {
       --uva-blue: #1d2731;
       --uva-orange: #c75100;
+      --light-orange: #f7c59f;
       --light-bg: #f9f9f9;
     }
 
@@ -68,6 +70,12 @@
       font-weight: bold;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
       text-align: center;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
     }
 
     .intro-section {
@@ -96,6 +104,11 @@
     .blue-section {
       background-color: var(--uva-blue);
       color: white;
+    }
+
+    .light-orange-section {
+      background-color: var(--light-orange);
+      color: #333;
     }
 
     .section-heading {
@@ -166,6 +179,7 @@
       max-width: 600px;
       margin: auto;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      animation: fadeIn 1s ease-in;
     }
 
     form label {
@@ -220,6 +234,7 @@
 
   <nav>
     <div class="nav-left">
+      <img src="../media/Hoos_Lost.png" alt="Logo">
       Hoos Lost
     </div>
     <div class="nav-links">
@@ -252,14 +267,14 @@
     <div id="item-list" class="card-container"></div>
   </section>
 
-  <section class="section orange-section">
+  <section class="section light-orange-section">
     <h2 class="section-heading">📨 Report a Lost Item</h2>
     <form id="report-form">
       <label for="description">Item Description:</label>
       <textarea id="description" rows="3" required></textarea>
 
       <label for="location">Last Seen Location:</label>
-      <input type="text" id="location" required>
+      <input id="location" placeholder="Click to search location on map" type="text" onclick="initAutocomplete()" required>
 
       <label for="photo">Upload Photo:</label>
       <input type="file" id="photo" accept="image/*" required>
@@ -278,6 +293,16 @@
   </footer>
 
   <script>
+    let autocomplete;
+    function initAutocomplete() {
+      if (!autocomplete) {
+        autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById('location'),
+          { types: ['geocode'] }
+        );
+      }
+    }
+
     const sampleItems = [
       {
         name: "Lost Water Bottle",
