@@ -44,28 +44,28 @@
       margin: 0 auto;
     }
 
-    .cropped-banner {
+    .full-banner {
   width: 100%;
-  height: 420px;           /* ⬆️ Increase to show more image vertically */
-  overflow: hidden;
   position: relative;
 }
 
-.cropped-banner img {
+.full-banner img {
   width: 100%;
-  height: auto;
-  position: absolute;
-  top: -200px;              /* ⬇️ Adjust this until your sweet spot is centered */
-  left: 0;
+  height: auto;          
+  display: block;
 }
 
-.cropped-banner::after {
-  content: '';
+
+.banner-text {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.3); /* dark transparent overlay */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-align: center;
 }
 
 
@@ -73,9 +73,40 @@
       padding: 40px 20px;
     }
 
-    .blue-section {
-      background-color: var(--section-blue);
-    }
+    .section.blue-section {
+  background-color: #f0f2f8; /* Subtle slate blue-gray */
+  position: relative;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.section.blue-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to top, rgba(240,242,248,1), rgba(255,255,255,0));
+}
+
+.section-heading {
+  text-align: center;
+  color: var(--uva-blue);
+  font-size: 32px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.section-heading::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--uva-orange);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
 
     .orange-section {
       background-color: var(--section-orange);
@@ -99,18 +130,18 @@
     }
 
     .card {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      width: 280px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      overflow: hidden;
-    }
+  background-color: white;
+  border: none;
+  border-radius: 14px;
+  width: 300px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
 
-    .card:hover {
-      transform: scale(1.04);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
 
     .card img {
       width: 100%;
@@ -194,8 +225,12 @@
 
   <nav>Hoos Lost</nav>
 
-  <header class="cropped-banner">
-    <img src="../media/header.jpg" alt="UVA Campus Header Image">
+  <header class="full-banner">
+    <img src="../media/header3.jpg" alt="UVA Campus Header">
+    <div class="banner-text">
+      Hoos Lost<br>
+      <span style="font-size: 20px; font-weight: normal;">Helping Hoos get their lost stuff back</span>
+    </div>
   </header>
 
   <section class="section blue-section">
@@ -203,7 +238,7 @@
       Welcome to the official UVA Lost & Found platform. Here, students can post lost items, browse recent reports, and help each other recover what matters.
     </div>
 
-    <h2 style="text-align: center; color: var(--uva-blue);">🔎 Recently Reported Lost Items</h2>
+    <h2 class="section-heading">🔎 Recently Reported Lost Items</h2>
     <div id="item-list" class="card-container"></div>
   </section>
 
