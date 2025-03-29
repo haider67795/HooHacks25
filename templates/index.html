@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>UVA Lost & Found</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
   <style>
     :root {
-      --uva-blue: #232f3e;
-      --uva-orange: #e57200;
+      --uva-blue: #1d2731;
+      --uva-orange: #c75100;
+      --light-orange: #f7c59f;
       --light-bg: #f9f9f9;
-      --section-blue: #eef3f9;
-      --section-orange: #fff4ec;
     }
 
     body {
-      font-family: 'Nunito', sans-serif;
+      font-family: 'Rubik', sans-serif;
       margin: 0;
       padding: 0;
       background-color: var(--light-bg);
@@ -23,103 +23,109 @@
     }
 
     nav {
-      background-color: var(--uva-blue);
+      background-color: #000;
       color: white;
-      padding: 16px;
-      font-size: 24px;
-      text-align: center;
-      font-weight: bold;
-      letter-spacing: 0.5px;
+      padding: 16px 32px;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    header {
-      text-align: center;
-      background-color: white;
+    .nav-left {
+      display: flex;
+      align-items: center;
     }
 
-    header img {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
+    .nav-left img {
+      height: 40px;
+      margin-right: 12px;
+    }
+
+    .nav-links a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
     }
 
     .full-banner {
-  width: 100%;
-  position: relative;
-}
+      width: 100%;
+      position: relative;
+    }
 
-.full-banner img {
-  width: 100%;
-  height: auto;          
-  display: block;
-}
+    .full-banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
+    .banner-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      animation: fadeIn 1.5s ease-out;
+    }
 
-.banner-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 36px;
-  font-weight: bold;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  text-align: center;
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
 
+    .intro-section {
+      background-color: var(--uva-orange);
+      color: white;
+      padding: 60px 10%;
+      text-align: center;
+    }
+
+    .intro-text {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.6;
+    }
 
     .section {
-      padding: 40px 20px;
+      padding: 60px 20px;
     }
-
-    .section.blue-section {
-  background-color: #f0f2f8; /* Subtle slate blue-gray */
-  position: relative;
-  padding-top: 80px;
-  padding-bottom: 80px;
-}
-.section.blue-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  background: linear-gradient(to top, rgba(240,242,248,1), rgba(255,255,255,0));
-}
-
-.section-heading {
-  text-align: center;
-  color: var(--uva-blue);
-  font-size: 32px;
-  margin-bottom: 30px;
-  position: relative;
-}
-
-.section-heading::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background-color: var(--uva-orange);
-  margin: 12px auto 0;
-  border-radius: 2px;
-}
-
 
     .orange-section {
-      background-color: var(--section-orange);
+      background-color: var(--uva-orange);
+      color: white;
     }
 
-    .description {
-      font-size: 18px;
-      color: #555;
+    .blue-section {
+      background-color: var(--uva-blue);
+      color: white;
+    }
+
+    .light-orange-section {
+      background-color: var(--light-orange);
+      color: #333;
+    }
+
+    .section-heading {
       text-align: center;
+      font-size: 32px;
       margin-bottom: 30px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+      position: relative;
+    }
+
+    .section-heading::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background-color: white;
+      margin: 12px auto 0;
+      border-radius: 2px;
     }
 
     .card-container {
@@ -130,18 +136,19 @@
     }
 
     .card {
-  background-color: white;
-  border: none;
-  border-radius: 14px;
-  width: 300px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
+      background-color: white;
+      color: #333;
+      border-radius: 14px;
+      width: 300px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      overflow: hidden;
+    }
 
-.card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-}
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
 
     .card img {
       width: 100%;
@@ -166,11 +173,13 @@
 
     form {
       background-color: white;
+      color: #333;
       padding: 25px;
       border-radius: 12px;
       max-width: 600px;
       margin: auto;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      animation: fadeIn 1s ease-in;
     }
 
     form label {
@@ -201,7 +210,7 @@
     }
 
     footer {
-      background-color: var(--uva-blue);
+      background-color: #000;
       color: white;
       padding: 20px;
       text-align: center;
@@ -223,7 +232,16 @@
 </head>
 <body>
 
-  <nav>Hoos Lost</nav>
+  <nav>
+    <div class="nav-left">
+      <img src="../media/Hoos_Lost.png" alt="Logo">
+      Hoos Lost
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="chatbox.html">Chat</a>
+    </div>
+  </nav>
 
   <header class="full-banner">
     <img src="../media/header3.jpg" alt="UVA Campus Header">
@@ -233,23 +251,30 @@
     </div>
   </header>
 
-  <section class="section blue-section">
-    <div class="description">
-      Welcome to the official UVA Lost & Found platform. Here, students can post lost items, browse recent reports, and help each other recover what matters.
+  <section class="intro-section">
+    <div class="intro-text">
+      <h2>Welcome to UVA Lost & Found</h2>
+      <p>
+        Our goal is simple: help students recover their lost belongings quickly and easily.
+        Post an item you’ve lost, browse current listings, or reach out to others who may have found it. 
+        Together, we can make sure nothing important stays lost for long.
+      </p>
     </div>
+  </section>
 
+  <section class="section blue-section">
     <h2 class="section-heading">🔎 Recently Reported Lost Items</h2>
     <div id="item-list" class="card-container"></div>
   </section>
 
-  <section class="section orange-section">
-    <h2 style="text-align: center; color: var(--uva-orange);">📨 Report a Lost Item</h2>
+  <section class="section light-orange-section">
+    <h2 class="section-heading">📨 Report a Lost Item</h2>
     <form id="report-form">
       <label for="description">Item Description:</label>
       <textarea id="description" rows="3" required></textarea>
 
       <label for="location">Last Seen Location:</label>
-      <input type="text" id="location" required>
+      <input id="location" placeholder="Click to search location on map" type="text" onclick="initAutocomplete()" required>
 
       <label for="photo">Upload Photo:</label>
       <input type="file" id="photo" accept="image/*" required>
@@ -268,53 +293,88 @@
   </footer>
 
   <script>
-    const sampleItems = [
-      {
-        name: "Lost Water Bottle",
-        imageUrl: "media/lost-item-placeholder.jpg",
-        description: "Blue Hydroflask, last seen near Clark Hall.",
-        location: "Clark Hall"
-      },
-      {
-        name: "TI-84 Calculator",
-        imageUrl: "media/lost-item-placeholder2.jpg",
-        description: "Black calculator in soft case, has my name on the back.",
-        location: "Rice Hall"
-      },
-      {
-        name: "AirPods Pro",
-        imageUrl: "media/lost-item-placeholder3.jpg",
-        description: "In a silicone black case, probably dropped near Clemons.",
-        location: "Clemons Library"
-      }
-    ];
+    // Function to dynamically fetch the top 3 most recent items from the Flask backend
+        function fetchTopItems() {
+            fetch('/api/top_items')  // Call the Flask API to get top 3 items
+                .then(response => response.json())
+                .then(data => {
+                    const items = data.top_items;
+                    displayItems(items);  // Call function to display items on the page
+                })
+                .catch(error => console.error('Error fetching top items:', error));
+        }
 
-    function displayItems(items) {
-      const itemList = document.getElementById('item-list');
-      itemList.innerHTML = '';
-      items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="${item.imageUrl}" alt="Lost item image">
-          <div class="card-content">
-            <h3>${item.name}</h3>
-            <p><strong>Location:</strong> ${item.location}</p>
-            <p>${item.description}</p>
-          </div>
+        // Function to display items dynamically in the HTML
+        function displayItems(items) {
+            const itemList = document.getElementById('item-list');
+            itemList.innerHTML = '';  // Clear the existing items first
+
+            // Loop through the fetched items and create HTML for each
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                // Construct the correct image path for user-uploaded images or fallback to placeholder
+                let imageUrl;
+                if (item.photo_filename) {
+                    // User-uploaded image (from the uploads folder)
+                    imageUrl = `/uploads/${item.photo_filename}`;
+                } else {
+                    // Static image (from the media folder, e.g., placeholder)
+                    imageUrl = '/media/lost-item-placeholder.jpg';  // Default placeholder
+                }
+
+                // Add the item to the card container
+                card.innerHTML = `
+            <img src="${imageUrl}" alt="Lost item image">
+            <div class="card-content">
+                <h3>${item.description}</h3>
+                <p><strong>Location:</strong> ${item.location}</p>
+                <p>${item.description}</p>
+            </div>
         `;
-        itemList.appendChild(card);
-      });
-    }
+                itemList.appendChild(card);
+            });
+        }
+
+        // Call the fetchTopItems function to load items when the page loads
+        window.onload = function () {
+            fetchTopItems();
+        };
 
     document.getElementById('report-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      alert("Form submitted! Integration with backend coming soon.");
+        e.preventDefault();  // Prevent the default form submission behavior
+
+        // Get the form data
+        const description = document.getElementById('description').value;
+        const location = document.getElementById('location').value;
+        const photo = document.getElementById('photo').files[0];  // Get the uploaded photo file
+
+        const formData = new FormData();
+        formData.append('description', description);
+        formData.append('location', location);
+        formData.append('photo', photo);
+
+        // Send a POST request to the backend (Flask)
+        fetch('/api/report', {
+            method: 'POST',
+            body: formData  // The FormData contains the file and the other form data
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the Flask backend
+                // Optionally, clear the form after submission
+                document.getElementById('report-form').reset();
+
+                // Fetch and display the latest top items (optional, you can reload the items here)
+                fetchTopItems();
+            })
+            .catch(error => {
+                console.error('Error submitting the form:', error);
+                alert(data.message);
+            });
     });
 
-    window.onload = function () {
-      displayItems(sampleItems);
-    };
   </script>
 </body>
 </html>
