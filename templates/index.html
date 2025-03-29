@@ -39,10 +39,35 @@
 
     header img {
       width: 100%;
-      max-height: 320px;
-      object-fit: cover;
-      border-bottom: 1px solid #ccc;
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
+
+    .cropped-banner {
+  width: 100%;
+  height: 420px;           /* ⬆️ Increase to show more image vertically */
+  overflow: hidden;
+  position: relative;
+}
+
+.cropped-banner img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: -200px;              /* ⬇️ Adjust this until your sweet spot is centered */
+  left: 0;
+}
+
+.cropped-banner::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3); /* dark transparent overlay */
+}
+
 
     .section {
       padding: 40px 20px;
@@ -167,10 +192,10 @@
 </head>
 <body>
 
-  <nav>UVA Lost & Found</nav>
+  <nav>Hoos Lost</nav>
 
-  <header>
-    <img src="../media/header2.jpg" alt="UVA Campus Header Image">
+  <header class="cropped-banner">
+    <img src="../media/header.jpg" alt="UVA Campus Header Image">
   </header>
 
   <section class="section blue-section">
