@@ -7,7 +7,7 @@
     <title>Hoos Lost</title>
     <link rel="icon" href="../media/tab_icon.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="styles.css">
+     <link rel="stylesheet" href="styles.css">
 
 </head>
 
@@ -44,6 +44,7 @@
             display: flex; /* Use flexbox to center the images */
             justify-content: center; /* Center the images horizontally */
             align-items: center;
+            
         }
 
         /* Make the images in a row for sliding */
@@ -65,6 +66,51 @@
             width: 100%; /* Make the image fill the container's width */
             height: 100%; /* Make the image fill the container's height */
             object-fit: contain; /* Ensure the image covers the area while maintaining its aspect ratio */
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            background-color: rgba(224, 224, 224, 0.477);
+            color: rgb(0, 0, 0);
+            padding: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .left-arrow {
+            left: 10px;
+            transform: translateY(-50%);
+        }
+
+        .right-arrow {
+            right: 10px;
+            transform: translateY(-50%);
+        }
+        /* Circle Navigation (dots) */
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px; /* Adjust space between the slideshow and dots */
+            position: absolute;
+            bottom: 30px;  /* Position the dots at the bottom of the slideshow container */
+            left: 27%;
+            transform: translateX(-50%);
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #c2c2c2;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .active-dot {
+            background-color: #2a3d66;
         }
 
         /* Right half for chat content */
@@ -158,7 +204,7 @@
     <!-- Chatbox Section -->
     <div class="chatbox">
         <div class="chatbox-header">
-            <h3>AI Chat Assistant</h3>
+            <h3>Hoo Needs Help</h3>
         </div>
         <div class="chatbox-body" id="chatbox-body">
             <!-- Messages will be added here dynamically -->
@@ -195,7 +241,7 @@
     <!-- Slideshow Section on the left -->
     <div class="slideshow-container">
         <div class ="slideshow-images"
-            <!-- 10 Images for the slideshow -->
+            <-- 10 Images for the slideshow -->
             <div class="mySlides fade">
                 <img src="../media/airpods.jpeg" alt="Image 1">
             </div>
@@ -211,30 +257,85 @@
             <div class="mySlides fade">
                 <img src="../media/airpods.jpeg" alt="Image 5">
             </div>
+            <div class="mySlides fade">
+                <img src="../media/Hoos_Lost.png" alt="Image 4">
+            </div>
         </div>
+        <span class="arrow left-arrow" onclick="moveSlide(-1)">&#10094;</span>
+        <span class="arrow right-arrow" onclick="moveSlide(1)">&#10095;</span>
+    </div>
+    <div class="dots-container" id="dots-container">
+        <!-- Dots will be dynamically generated here -->
     </div>
     <script>
         let slideIndex = 0;
         let slides = document.getElementsByClassName("mySlides");
         let slideshowImages = document.querySelector(".slideshow-images");
+        let autoSlide;  // Variable to store the auto-slideshow interval
+        let inactivityTimer;  // Timer for inactivity period
+        let dotsContainer = document.getElementById("dots-container");
 
+        // Function to show the slides automatically
         function showSlides() {
             slideIndex++;
             if (slideIndex >= slides.length) {
-                slideIndex = 0; // Reset to the first image
-                slideshowImages.style.transition = 'none';  // Disable transition for immediate reset
-                slideshowImages.style.transform = `translateX(0%)`;  // Immediately reset to the first image
-                setTimeout(() => {
-                    slideshowImages.style.transition = 'transform 1s ease';  // Re-enable transition after reset
-                }, 50);  // Allow a short delay to re-enable the transition smoothly
-            } else {
-                slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;  // Slide to the next image
+                slideIndex = 0;
             }
-
-            setTimeout(showSlides, 2000); // Change image every 2 seconds
+            slideshowImages.style.transition = 'transform 1s ease';  // Smooth transition
+            slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;  // Move to the next slide
+            updateActiveDot();  // Update active dot
+            autoSlide = setTimeout(showSlides, 3000);
         }
 
-        showSlides();  // Initialize the slideshow   // Initialize the slideshow
+        // Move the slide based on the direction clicked (left or right)
+        function moveSlide(direction) {
+            clearTimeout(autoSlide);  // Stop the automatic slideshow
+            slideIndex += direction;
+            if (slideIndex < 0) slideIndex = slides.length - 1;  // Loop back to the last slide if at the first slide
+            if (slideIndex >= slides.length) slideIndex = 0;  // Loop back to the first slide if at the last slide
+            slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;
+            updateActiveDot();
+            resetInactivityTimer();
+        }
+          // Update the active dot when the slide changes
+          function updateActiveDot() {
+            let dots = document.querySelectorAll(".dot");
+            dots.forEach((dot, index) => {
+                if (index === slideIndex) {
+                    dot.classList.add("active-dot");
+                } else {
+                    dot.classList.remove("active-dot");
+                }
+            });
+        }
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);  // Clear the existing timer
+            inactivityTimer = setTimeout(() => {
+                showSlides();  // Restart the slideshow after inactivity (e.g., after 5 seconds)
+            }, 5000);  // 5 seconds of inactivity before slideshow resumes
+        }
+        // Create dots for navigation and assign click functionality
+        function createDots() {
+    for (let i = 0; i < slides.length; i++) {
+        let dot = document.createElement("div");
+        dot.classList.add("dot");
+        dot.addEventListener("click", () => {
+            slideIndex = i;
+            slideshowImages.style.transition = 'transform 1s ease';  // Smooth transition
+            slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;  // Jump to the selected slide
+            updateActiveDot();  // Update active dot
+            clearTimeout(autoSlide);  // Stop automatic slideshow when a dot is clicked
+            resetInactivityTimer();  // Reset inactivity timer
+        });
+        dotsContainer.appendChild(dot);
+    }
+    updateActiveDot();  // Set the active dot on load
+}
+
+        createDots();  // Initialize dots navigation
+        showSlides();
+        window.addEventListener('mousemove', resetInactivityTimer);
+        window.addEventListener('keydown', resetInactivityTimer);
     </script>
 </body>
 </html>
