@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Reported Items</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+    }
+
+    nav {
+      background-color: #000;
+      color: white;
+      padding: 16px 32px;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left img {
+      height: 40px;
+      margin-right: 12px;
+    }
+
+    .nav-links a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 300px;
+      overflow: hidden;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #1d2731;
+    }
+
+    .card-content p {
+      margin: 4px 0;
+      font-size: 14px;
+    }
+
+    .card-content button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #c75100;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <img src="../media/Hoos_Lost.png" alt="Logo">
+      Hoos Lost
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="chatbox.html">Chat</a>
+      <a href="allitems.html">All Items</a>
+    </div>
+  </nav>
+
+  <h1>All Reported Lost Items</h1>
+  <div class="card-container" id="all-items-container"></div>
+
+  <script>
+    const allItems = JSON.parse(localStorage.getItem("lostItems") || "[]");
+
+    function displayAllItems(items) {
+      const container = document.getElementById('all-items-container');
+      container.innerHTML = '';
+      items.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${item.imageUrl}" alt="Lost item image">
+          <div class="card-content">
+            <h3>${item.name}</h3>
+            <p><strong>Location:</strong> ${item.location}</p>
+            <p>${item.description}</p>
+            <button onclick="markAsSeen(${index})">Mark as Seen</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function markAsSeen(index) {
+      let items = JSON.parse(localStorage.getItem("lostItems") || "[]");
+      items[index].seen = true;
+      localStorage.setItem("lostItems", JSON.stringify(items));
+      displayAllItems(items.filter(item => !item.seen));
+    }
+
+    // Show only items not marked as "seen"
+    displayAllItems(allItems.filter(item => !item.seen));
+  </script>
+</body>
+</html>
