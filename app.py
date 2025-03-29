@@ -1,21 +1,29 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
-import sqlite3
 import os
-from urllib.parse import quote  # for URL encoding the filenames
+import sqlite3
+from flask import Flask, render_template, request, jsonify, send_from_directory
+from urllib.parse import quote
 
 app = Flask(__name__)
 
-# Folder to store uploaded photos
+# Define the upload and media folders
 UPLOAD_FOLDER = 'uploads'
+MEDIA_FOLDER = 'media'  # Folder for static images (e.g., placeholders)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MEDIA_FOLDER'] = MEDIA_FOLDER
 
+# Ensure the uploads folder exists
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-# Route to serve images from the uploads folder
+# Route to serve images from the uploads folder (user-uploaded images)
 @app.route('/uploads/<filename>')
 def upload_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+# Route to serve images from the media folder (static images like placeholders)
+@app.route('/media/<filename>')
+def media_file(filename):
+    return send_from_directory(app.config['MEDIA_FOLDER'], filename)
 
 @app.route('/')
 def home():
@@ -50,7 +58,6 @@ def report_item():
         message = "Item already exists in the database!"
     else:
         # If not found, insert the new item
-        print(photo_filename)
         cursor.execute('''
             INSERT INTO items (description, location, photo_filename) 
             VALUES (?, ?, ?)
@@ -62,7 +69,10 @@ def report_item():
 
     conn.commit()
     conn.close()
-    print(message)
+
+    # Run the cleanup function to remove unused photos from the uploads folder
+    remove_unused_photos()
+
     return jsonify({"message": message})
 
 # New route to fetch the top 3 most recently added items
@@ -95,6 +105,25 @@ def get_top_items():
     conn.close()
 
     return jsonify({"top_items": top_items})
+
+# Function to remove unused photos from the uploads folder based on the database query
+def remove_unused_photos():
+    # Connect to the database
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    # Get all photo filenames from the database
+    cursor.execute('SELECT photo_filename FROM items WHERE photo_filename IS NOT NULL')
+    used_photos = {row[0] for row in cursor.fetchall()}
+
+    conn.close()
+
+    # Check files in the uploads folder
+    for filename in os.listdir(app.config['UPLOAD_FOLDER']):
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        if filename not in used_photos and os.path.isfile(file_path):
+            os.remove(file_path)  # Delete the unused photo
+            print(f"Removed unused photo: {filename}")
 
 if __name__ == '__main__':
     app.run(debug=True)
