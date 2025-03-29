@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask with SQLite</title>
+    <script>
+        // Function to fetch users and display them
+        function getUsers() {
+            fetch('/api/users')
+                .then(response => response.json())
+                .then(users => {
+                    let userList = document.getElementById('user-list');
+                    userList.innerHTML = '';  // Clear existing list
+                    users.forEach(user => {
+                        let li = document.createElement('li');
+                        li.textContent = `Name: ${user.name}, Email: ${user.email}`;
+                        userList.appendChild(li);
+                    });
+                });
+        }
+
+        // Function to add a new user via POST request
+        function addUser() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            fetch('/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, email: email })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    getUsers();  // Refresh the user list
+                });
+        }
+
+        // Load the user data when the page is loaded
+        window.onload = function () {
+            getUsers();
+        };
+    </script>
+</head>
+
+<body>
+    <h1>User List</h1>
+
+    <ul id="user-list"></ul>
+
+    <h2>Add New User</h2>
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" required>
+    <button onclick="addUser()">Add User</button>
+</body>
+
+</html>
