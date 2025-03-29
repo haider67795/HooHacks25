@@ -29,6 +29,14 @@ def media_file(filename):
 def home():
     return render_template('index.html')  # Make sure 'index.html' exists in the templates folder
 
+@app.route('/allitems.html')
+def all_itmes():
+    return render_template('allitems.html')  # Make sure 'index.html' exists in the templates folder
+
+@app.route('/chatbox.html')
+def chatbox():
+    return render_template('chatbox.html')  # Make sure 'index.html' exists in the templates folder
+
 @app.route('/api/report', methods=['POST'])
 def report_item():
     # Get data from the form
