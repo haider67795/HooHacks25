@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hoos Lost</title>
+    <link rel="icon" href="'/Users/matthewvu/Downloads/Hoos Lost.png'" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <!-- Logo placed inside a header -->
+        <img src="'/Users/matthewvu/Downloads/Hoos Lost.png'" alt="Hoos Lost" class="logo">
+    </header>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #2a3d66;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .chatbox {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .chatbox-header {
+            background-color: #2a3d66;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .chatbox-body {
+            padding: 10px;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .chatbox-footer {
+            display: flex;
+            padding: 10px;
+            background-color: #f7f7f7;
+            border-top: 1px solid #ccc;
+        }
+        .chatbox-footer input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .chatbox-footer button {
+            background-color: #2a3d66;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .chatbox-footer button:hover {
+            background-color: #1d2a3b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lost and Found</h1>
+        <p>Your trusted platform for lost and found items</p>
+    </header>
+
+    <div class="container">
+        <h2>Welcome to the Lost and Found Platform!</h2>
+        <p>On this platform, you can find lost items, report lost items, and chat with our support assistant for further help.</p>
+    </div>
+
+    <!-- Chatbox Section -->
+    <div class="chatbox">
+        <div class="chatbox-header">
+            <h3>AI Chat Assistant</h3>
+        </div>
+        <div class="chatbox-body" id="chatbox-body">
+            <!-- Messages will be added here dynamically -->
+        </div>
+        <div class="chatbox-footer">
+            <input type="text" id="user-input" placeholder="Type a message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('send-btn').addEventListener('click', function() {
+            var userInput = document.getElementById('user-input').value;
+            if (userInput.trim() !== '') {
+                var messageDiv = document.createElement('div');
+                messageDiv.classList.add('user-message');
+                messageDiv.textContent = userInput;
+                document.getElementById('chatbox-body').appendChild(messageDiv);
+                document.getElementById('user-input').value = '';
+
+                // Simulate AI response
+                setTimeout(function() {
+                    var aiResponseDiv = document.createElement('div');
+                    aiResponseDiv.classList.add('ai-message');
+                    aiResponseDiv.textContent = "AI: I'm here to help! What can I assist you with?";
+                    document.getElementById('chatbox-body').appendChild(aiResponseDiv);
+                    document.getElementById('chatbox-body').scrollTop = document.getElementById('chatbox-body').scrollHeight;
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
