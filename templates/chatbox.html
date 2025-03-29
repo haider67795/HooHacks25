@@ -63,7 +63,7 @@
         }
         .slideshow-container img {
             width: 100%; /* Make the image fill the container's width */
-            height: 80%; /* Make the image fill the container's height */
+            height: 100%; /* Make the image fill the container's height */
             object-fit: contain; /* Ensure the image covers the area while maintaining its aspect ratio */
         }
 
@@ -82,7 +82,8 @@
             background-color: #2a3d66;
             color: white;
             padding: 2.5px;
-            text-align: center;
+            text-align: center
+    
         }
         .container {
             max-width: 1200px;
@@ -103,6 +104,7 @@
             display: flex;
             flex-direction: column;
         }
+        
         .chatbox-header {
             background-color: #2a3d66;
             color: white;
@@ -218,13 +220,13 @@
 
         function showSlides() {
             slideIndex++;
-            if (slideIndex > slides.length - 1) {
+            if (slideIndex >= slides.length) {
                 slideIndex = 0; // Reset to the first image
                 slideshowImages.style.transition = 'none';  // Disable transition for immediate reset
                 slideshowImages.style.transform = `translateX(0%)`;  // Immediately reset to the first image
                 setTimeout(() => {
                     slideshowImages.style.transition = 'transform 1s ease';  // Re-enable transition after reset
-                }, 50);  // Delay to allow transition re-enable
+                }, 50);  // Allow a short delay to re-enable the transition smoothly
             } else {
                 slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;  // Slide to the next image
             }
@@ -232,7 +234,7 @@
             setTimeout(showSlides, 2000); // Change image every 2 seconds
         }
 
-        showSlides();   // Initialize the slideshow
+        showSlides();  // Initialize the slideshow   // Initialize the slideshow
     </script>
 </body>
 </html>
