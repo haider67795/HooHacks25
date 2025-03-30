@@ -15,28 +15,40 @@ app.config['MEDIA_FOLDER'] = MEDIA_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
+# Function to sanitize file names: remove spaces and trim
+def sanitize_filename(filename):
+    # Replace spaces with underscores and trim any leading/trailing whitespace
+    sanitized_filename = filename.replace(" ", "_").strip()
+    return sanitized_filename
+
 # Route to serve images from the uploads folder (user-uploaded images)
 @app.route('/uploads/<filename>')
 def upload_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    # Sanitize the filename before serving it
+    sanitized_filename = sanitize_filename(filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], sanitized_filename)
 
 # Route to serve images from the media folder (static images like placeholders)
 @app.route('/media/<filename>')
 def media_file(filename):
     return send_from_directory(app.config['MEDIA_FOLDER'], filename)
 
+# Home route
 @app.route('/')
 def home():
     return render_template('index.html')  # Make sure 'index.html' exists in the templates folder
 
+# Route for All Items page
 @app.route('/allitems.html')
-def all_itmes():
-    return render_template('allitems.html')  # Make sure 'index.html' exists in the templates folder
+def all_items():
+    return render_template('allitems.html')  # Make sure 'allitems.html' exists in the templates folder
 
+# Route for Chatbox page
 @app.route('/chatbox.html')
 def chatbox():
-    return render_template('chatbox.html')  # Make sure 'index.html' exists in the templates folder
+    return render_template('chatbox.html')  # Make sure 'chatbox.html' exists in the templates folder
 
+# API route to report a lost item
 @app.route('/api/report', methods=['POST'])
 def report_item():
     # Get data from the form
@@ -44,10 +56,10 @@ def report_item():
     location = request.form.get('location')
     photo = request.files.get('photo')
 
-    # Save the uploaded photo
+    # Save the uploaded photo with sanitized filename (remove spaces)
     if photo:
-        # URL encode the filename to handle spaces and special characters
-        photo_filename = quote(photo.filename)
+        # Sanitize the filename to handle spaces and special characters
+        photo_filename = sanitize_filename(photo.filename)
         photo.save(os.path.join(app.config['UPLOAD_FOLDER'], photo_filename))
     else:
         photo_filename = None
@@ -83,7 +95,7 @@ def report_item():
 
     return jsonify({"message": message})
 
-# New route to fetch the top 3 most recently added items
+# API route to fetch the top 3 most recently added items
 @app.route('/api/top_items', methods=['GET'])
 def get_top_items():
     # Connect to the database
