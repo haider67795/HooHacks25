@@ -233,13 +233,11 @@ footer .contacts div {
 
         // Add the item to the card container
         card.innerHTML = `
-             <img src="${imageUrl}" alt="Lost item image">
-             <div class="card-content">
-                 <h3>${item.description}</h3>
-                 <p><strong>Location:</strong> ${item.location}</p>
-                 <p>${item.description}</p>
-                 <button class="seen-button" data-id="${item.id}">Seen</button>
-             </div>`;
+  <img src="${imageUrl}" alt="Lost item image">
+  <div class="card-content">
+    <h3>${item.description}</h3>
+    <p><strong>Location:</strong> ${item.location}</p>
+  </div>`;
 
         itemList.appendChild(card);
 

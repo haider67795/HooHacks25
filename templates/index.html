@@ -512,13 +512,11 @@ leafletMap.on('locationfound', function (e) {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <img src="${item.imageUrl}" alt="Lost item image">
-          <div class="card-content">
-            <h3>${item.name}</h3>
-            <p><strong>Location:</strong> ${item.location}</p>
-            <p>${item.description}</p>
-          </div>
-        `;
+  <img src="${imageUrl}" alt="Lost item image">
+  <div class="card-content">
+    <h3>${item.description}</h3>
+    <p><strong>Location:</strong> ${item.location}</p>
+  </div>`;
         itemList.appendChild(card);
       });
     }
@@ -596,13 +594,11 @@ leafletMap.on('locationfound', function (e) {
 
                 // Add the item to the card container
                 card.innerHTML = `
-             <img src="${imageUrl}" alt="Lost item image">
-             <div class="card-content">
-                 <h3>${item.description}</h3>
-                 <p><strong>Location:</strong> ${item.location}</p>
-                 <p>${item.description}</p>
-             </div>`
-             ;
+  <img src="${imageUrl}" alt="Lost item image">
+  <div class="card-content">
+    <h3>${item.description}</h3>
+    <p><strong>Location:</strong> ${item.location}</p>
+  </div>`;
                  itemList.appendChild(card);
             });
                     }
