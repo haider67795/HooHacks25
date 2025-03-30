@@ -9,24 +9,13 @@
   <link rel="icon" href="../media/tab_icon.png" type="image/png">
 
   <style>
-    /* General Styles */
     body {
       font-family: 'Rubik', sans-serif;
       background-color: #f9f9f9;
       color: #000000;
       margin: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
     }
 
-    .main-wrapper {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    /* Navigation Styles */
     nav {
       background-color: #000;
       color: white;
@@ -35,46 +24,43 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
     }
 
     .nav-left {
       display: flex;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 0px;
+
+
     }
 
     .nav-left img {
       height: 40px;
       margin-right: 12px;
     }
-
     .nav-links {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+            display: flex;
+            flex-wrap: wrap;
+      }
 
     .nav-links a {
       color: white;
+      margin-left: 20px;
       text-decoration: none;
       font-weight: 500;
     }
 
-    /* Page Header */
     h1 {
       text-align: center;
       margin-top: 40px;
     }
 
-    /* Card Container */
     .card-container {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
       padding: 20px;
-      flex-grow: 1;
     }
 
     .card {
@@ -86,13 +72,13 @@
     }
 
     .card img {
-      width: 100%;
-      max-height: 300px;
-      object-fit: contain;
-      background-color: #f1f1f1;
-      display: block;
-      margin: 0 auto;
-    }
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  background-color: #f1f1f1;
+  display: block;
+  margin: 0 auto;
+}
 
     .card-content {
       padding: 15px;
@@ -120,85 +106,96 @@
       font-size: 14px;
     }
 
-    /* Footer Styles */
-    footer {
-      background-color: #000;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 15px;
-      margin-top: auto;
-    }
+    html, body {
+  height: 100%;
+  margin: 0;
+}
 
-    footer .contacts {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 10px;
-    }
+.page-wrapper {
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+}
 
-    footer .contacts div {
-      line-height: 1.5;
-    }
+.card-container {
+  flex-grow: 1;
+}
 
-    /* Responsive Styles */
-    @media screen and (max-width: 768px) {
-      .card-container {
-        gap: 15px;
-        flex-direction: column;
-      }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
-      .nav-links {
-        flex-direction: column;
-        align-items: center;
-      }
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-      .nav-links a {
-        margin-left: 0;
-        margin-top: 10px;
-      }
+header, main {
+  width: 100%;
+}
 
-      .card {
-        width: 100%;
-        max-width: 400px;
-      }
-    }
+.content {
+  flex: 1;
+}
+
+footer {
+  background-color: #000;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 15px;
+}
+
+
+footer .contacts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+footer .contacts div {
+  line-height: 1.5;
+}
   </style>
 </head>
 
 <body>
-  <div class="main-wrapper">
-    <header>
+    <div class="page-wrapper">
       <nav>
         <div class="nav-left">
-          <a href="/">
-            <img src="../media/Hoos_Lost.png" alt="Logo">
-          </a>
-          Hoos Lost
+            <a href="/">
+                <img src="../media/Hoos_Lost.png" alt="Logo">
+            </a>
+            Hoos Lost
         </div>
         <div class="nav-links">
-          <a href="/">Home</a>
-          <a href="chatbox.html">Chat</a>
-          <a href="allitems.html">All Items</a>
+            <a href="/">Home</a>
+            <a href="chatbox.html">Chat</a>
+            <a href="allitems.html">All Items</a>
         </div>
-      </nav>
-      <h1>All Reported Lost Items</h1>
-    </header>
-
-    <main>
-      <div class="card-container" id="all-items-container"></div>
-    </main>
-
-    <footer>
-      <div>Made with 💙🧡 by Hoos Lost Team</div>
-      <div class="contacts">
-        <div><strong>Haider Qureshi</strong><br>xvg3cj@virginia.edu</div>
-        <div><strong>Haroon Zahid</strong><br>rav7tf@virginia.edu</div>
-        <div><strong>Matthew Vu</strong><br>qjy4pm@virginia.edu</div>
-      </div>
-    </footer>
-  </div>
+    </nav>
+        <h1>All Reported Lost Items</h1>
+      </header>
+  
+      <main class="content">
+        <div class="card-container" id="all-items-container"></div>
+      </main>
+  
+      <footer>
+        <div>Made with 💙🧡 by Hoos Lost Team</div>
+        <div class="contacts">
+          <div><strong>Haider Qureshi</strong><br>xvg3cj@virginia.edu</div>
+          <div><strong>Haroon Zahid</strong><br>rav7tf@virginia.edu</div>
+          <div><strong>Matthew Vu</strong><br>qjy4pm@virginia.edu</div>
+        </div>
+      </footer>
+    </div>
+  </body>
 
   <script>
     // Function to fetch top items based on limit
@@ -242,12 +239,13 @@
 
         // Add the item to the card container
         card.innerHTML = `
-          <img src="${imageUrl}" alt="Lost item image">
-          <div class="card-content">
-            <h3>${item.description}</h3>
-            <p><strong>Location:</strong> ${item.location}</p>
-            <button class="seen-button">Seen</button>
-          </div>`;
+             <img src="${imageUrl}" alt="Lost item image">
+             <div class="card-content">
+                 <h3>${item.description}</h3>
+                 <p><strong>Location:</strong> ${item.location}</p>
+                 <p>${item.description}</p>
+                 <button class="seen-button" data-id="${item.id}">Seen</button>
+             </div>`;
 
         itemList.appendChild(card);
 
@@ -266,6 +264,7 @@
       })
         .then(response => response.json())
         .then(data => {
+          alert('Item removed from the database!');
           fetchTopItems(-1);  // Fetch all items after removal
         })
         .catch(error => {
@@ -279,5 +278,4 @@
     };
   </script>
 </body>
-
 </html>
