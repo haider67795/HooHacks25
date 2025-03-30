@@ -255,6 +255,7 @@
         card.querySelector('.seen-button').addEventListener('click', function () {
           const itemId = item.id;
           deleteItem(itemId);  // Call function to delete the item from the database
+          window.location.reload();
         });
       });
     }
