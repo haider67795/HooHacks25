@@ -130,7 +130,7 @@
       height: 4px;
       background-color: white;
       margin: 12px auto 0;
-      border-radius: 2px;
+      border-radius: 0px;
     }
 
     .card-container {
@@ -183,7 +183,7 @@
   background-color: black;
   color: white;
   padding: 40px;
-  border-radius: 24px;
+  border-radius: 0px;
   max-width: 90%;
   margin: 40px auto;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -266,16 +266,22 @@ form button:hover {
     }
 
     #closeMap {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      background: #c00;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  color: #333;
+  font-size: 28px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  line-height: 1;
+  padding: 0;
+}
+#closeMap:hover {
+  color: #c00;
+}
 
     footer {
       background-color: #000;
@@ -402,7 +408,7 @@ form button:hover {
 
   <div id="mapModal">
     <div id="mapContainer">
-      <button id="closeMap" onclick="closeMapModal()">Close</button>
+        <button id="closeMap" onclick="closeMapModal()" aria-label="Close map modal">&times;</button>
       <div id="map"></div>
     </div>
   </div>
