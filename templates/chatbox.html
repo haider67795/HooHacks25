@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hoos Lost</title>
     <link rel="icon" href="../media/tab_icon.png" type="image/png">
@@ -19,7 +20,7 @@
         body {
             font-family: 'Rubik', sans-serif;            margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            background-color: #ffd0a9;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -57,9 +58,9 @@
          .slideshow-container {
             position: fixed;
             width: 700px; /* Make it full width of the container */
-            bottom: 20px;
+            bottom: 80px;
             left: 100px;
-            height: 680px; /* Set a fixed height for the slideshow */
+            height: 681px; /* Set a fixed height for the slideshow */
             overflow: hidden; /* Hide images outside the container */
             margin: auto; /* Center the slideshow horizontally */
             border: 0px solid #2a3d66; /* Add a border with a dark color */
@@ -72,39 +73,45 @@
             
         }
         .slideshow-header {
+            top: 0px;
+
             background-color: #2a3d66;  /* Blue background */
             color: white;
             padding: 15px;
             text-align: center;
-            width: 700px; /* Same width as the slideshow container */
-            margin: 0 auto; /* Center the header */
+            width: 690px; /* Same width as the slideshow container */
             font-size: 18px;
-            border-radius: 10px 10px 0 0; /* Rounded top corners */
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 100px;
+            height: 47.5px;
+            z-index: 2;
+        }
+        .slideshow-header h3 {
+        margin: 10px; /* Remove any default margin */
         }
 
         /* Make the images in a row for sliding */
         .slideshow-images {
             display: flex;
             transition: transform 1s ease;  /* Smooth transition for sliding */
-            width: 85%;
-            height: 85%;
+            width: 90%;
+            height: 90%;
         }
 
         .mySlides {
             flex: 0 0 100%;  /* Each image takes up 100% width */
-            height: 100%;
+            height: 90%;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+        .mySlides img {
+            margin-top: 100px;  /* Moves the image down */
+}
         .slideshow-container img {
             width: 100%; /* Make the image fill the container's width */
             height: 100%; /* Make the image fill the container's height */
             object-fit: contain; /* Ensure the image covers the area while maintaining its aspect ratio */
+            position: fixed;
         }
         .arrow {
             position: absolute;
@@ -133,8 +140,8 @@
             justify-content: center;
             gap: 10px;
             margin-top: 10px; /* Adjust space between the slideshow and dots */
-            position: absolute;
-            bottom: 30px;  /* Position the dots at the bottom of the slideshow container */
+            position: fixed;
+            bottom: 110px;  /* Position the dots at the bottom of the slideshow container */
             left: 27%;
             transform: translateX(-50%);
         }
@@ -171,7 +178,7 @@
         }
         .chatbox {
             position: fixed;
-            bottom: 20px;
+            bottom: 80px;
             right: 100px;
             width: 700px;
             height: 700px;
@@ -282,7 +289,7 @@
     <div class="slideshow-container">
         <div class="slideshow-container">
             <div class="slideshow-header">
-                <h3>Slideshow</h3>
+                <h3>Recently Found Items</h3>
             </div>
         <div class ="slideshow-images"
             <-- 10 Images for the slideshow -->
