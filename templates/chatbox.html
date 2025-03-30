@@ -8,6 +8,31 @@
     <link rel="icon" href="../media/tab_icon.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Add this to your existing CSS */
+.ai-message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.ai-text-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.ai-photo {
+    margin-top: 10px;
+    border-radius: 10px;  /* Rounded corners */
+    padding: 5px;  /* Space between the border and the image */
+    width: 300px;  /* Set a fixed width for the image */
+    height: 300px;  /* Set a fixed height for the image */
+    object-fit: contain;  /* Make sure the image maintains its aspect ratio */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
         html,
         body {
             margin: 0;
@@ -338,24 +363,68 @@
 
     <script>
         document.getElementById('send-btn').addEventListener('click', function () {
-            const input = document.getElementById('user-input');
-            const message = input.value.trim();
-            if (message) {
-                const userDiv = document.createElement('div');
-                userDiv.className = 'user-message';
-                userDiv.textContent = message;
-                document.getElementById('chatbox-body').appendChild(userDiv);
-                input.value = '';
-                setTimeout(() => {
-                    const aiDiv = document.createElement('div');
-                    aiDiv.className = 'ai-message';
-                    aiDiv.textContent = "AI: I'm here to help! What can I assist you with?";
-                    const body = document.getElementById('chatbox-body');
-                    body.appendChild(aiDiv);
-                    body.scrollTop = body.scrollHeight;
-                }, 1000);
-            }
-        });
+                const input = document.getElementById('user-input');
+                const message = input.value.trim();
+                if (message) {
+                    // Display user's message in the chatbox
+                    const userDiv = document.createElement('div');
+                    userDiv.className = 'user-message';
+                    userDiv.textContent = message;
+                    document.getElementById('chatbox-body').appendChild(userDiv);
+
+                    // Clear the input field
+                    input.value = '';
+
+                    // Send the message as a POST request to the server
+                    fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 'message': message })  // Send the message as JSON
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // After sending the message, show the AI response
+                            const aiDiv = document.createElement('div');
+                            aiDiv.className = 'ai-message';
+
+                            // Create and append the AI text response
+                            const textNode = document.createTextNode("AI: " + data.reply);
+                            aiDiv.appendChild(textNode);
+
+                            // Check if the AI response contains a photo
+                            if (data.photo) {
+                                // Create an img element for the photo
+                                const aiImage = document.createElement('img');
+                                aiImage.src = data.photo;  // Use the photo URL from the response
+                                aiImage.alt = "AI Response Image";  // Set an alt text for the image
+                                aiImage.className = 'ai-photo'; // Apply the 'ai-photo' class to style the image
+
+                                // Create a container for the text and image
+                                const aiTextAndImageContainer = document.createElement('div');
+                                aiTextAndImageContainer.className = 'ai-text-image-container';
+
+                                // Append the text and image container to the AI div
+                                aiTextAndImageContainer.appendChild(aiDiv);
+                                aiTextAndImageContainer.appendChild(aiImage);
+
+                                // Append the container to the chatbox body
+                                const body = document.getElementById('chatbox-body');
+                                body.appendChild(aiTextAndImageContainer);
+                            } else {
+                                // If no image, just append the aiDiv
+                                const body = document.getElementById('chatbox-body');
+                                body.appendChild(aiDiv);
+                            }
+
+                            body.scrollTop = body.scrollHeight; // Scroll to the bottom
+                        })
+                        .catch(error => {
+                            console.error('Error sending message:', error);
+                        });
+                }
+            });
 
         let slideIndex = 0;
         const slides = document.getElementsByClassName("mySlides");

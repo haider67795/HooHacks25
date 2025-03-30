@@ -2,6 +2,8 @@ import os
 import sqlite3
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from urllib.parse import quote
+from config import *
+from google import genai
 
 app = Flask(__name__)
 
@@ -44,7 +46,68 @@ def all_items():
 # Route for Chatbox page
 @app.route('/chatbox.html')
 def chatbox():
-    return render_template('chatbox.html')
+     return render_template('chatbox.html')
+    
+
+
+# Route for Chatbox page
+@app.route('/api/chat', methods=['POST'])
+def talkToGemini():
+    # Initialize the Gemini client
+    client = genai.Client(api_key=key)
+    
+    # Get the message from the POST request body
+    data = request.get_json()
+    user_message = data.get('message')
+
+    if not user_message:
+        return jsonify({'error': 'Message is required'}), 400
+
+    # Connect to the database and fetch items
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT id, description, location, photo_filename, timestamp FROM items
+        ORDER BY timestamp DESC
+    ''')
+    items = cursor.fetchall()
+
+    # Build a message for Gemini using the item descriptions
+    items_list = "\n".join([f"ID: {item[0]}, Description: {item[1]}" for item in items])
+    user_message = f"{user_message} Here is the list of items:\n{items_list}\n\nUsing this list, which item matches the closest to my message? Only return the ID of the matching item. If nothing matches, say 'I cannot find your lost item, sorry!'"
+
+    # Send the message to the Gemini API
+    response = client.models.generate_content(
+        model="gemini-2.0-flash", 
+        contents=user_message
+    )
+
+    ai_reply = response.text
+   
+
+    # Extract the ID from the response text
+    if ai_reply.lower() == "i cannot find your lost item, sorry!":
+        return jsonify({'reply': ai_reply})
+    
+    # Extract item ID from the AI reply (make sure it is an integer)
+    try:
+        item_id = int(ai_reply.strip())  # Ensure the response is an integer ID
+    except ValueError:
+        item_id = 0
+    
+    # Query the database for the item based on the extracted ID
+    cursor.execute('''
+        SELECT id, description, location, photo_filename, timestamp FROM items WHERE id = ?
+    ''', (item_id,))
+    item = cursor.fetchone()
+
+    # If the item is found, return the details, otherwise return an error
+    if item:
+        item_details = item[1] + " at " + item[2]
+        return jsonify({'reply': f"I found: {item_details}", 'photo': f"../uploads/{item[3]}" })
+    else:
+        return jsonify({'reply': ai_reply})
+
 
 # API route to report a lost item
 @app.route('/api/report', methods=['POST'])
