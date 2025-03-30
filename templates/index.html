@@ -539,10 +539,6 @@ leafletMap.on('locationfound', function (e) {
       seen: false
     };
 
-    const current = JSON.parse(localStorage.getItem("lostItems") || "[]");
-    current.push(newItem);
-    localStorage.setItem("lostItems", JSON.stringify(current));
-
     alert("Item submitted!");
     document.getElementById('report-form').reset();
   };
