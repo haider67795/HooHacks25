@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,390 +10,412 @@
     <link rel="icon" href="../media/tab_icon.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
-    
+
     <header>
         <!-- Logo placed inside a header -->
-    <style>
-        body {
-            font-family: 'Rubik', sans-serif;            margin: 0;
-            padding: 0;
-            background-color: #ffd0a9;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-
-        }
-        .container h2 {
-    margin-top: 6px; /* Adjust this value to move the heading up */
-    font-size: 32px;
-}
-        nav {
-        background-color: #000;
-        color: white;
-        padding: 16px 32px;
-        font-size: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        }
-
-        .nav-left {
-        display: flex;
-        align-items: center;
-        }
-
-        .nav-left img {
-        height: 40px;
-        margin-right: 12px;
-        }
-
-        .nav-links a {
-        color: white;
-        margin-left: 20px;
-        text-decoration: none;
-        font-weight: 500;
-        }
-
-         /* Left half for the slideshow */
-         .slideshow-container {
-            position: fixed;
-            width: 700px; /* Make it full width of the container */
-            bottom: 80px;
-            left: 100px;
-            height: 681px; /* Set a fixed height for the slideshow */
-            overflow: hidden; /* Hide images outside the container */
-            margin: auto; /* Center the slideshow horizontally */
-            border: 0px solid #2a3d66; /* Add a border with a dark color */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 10px; /* Padding inside the box */
-            background-color: #fff; /* White background inside the box */
-            display: flex; /* Use flexbox to center the images */
-            justify-content: center; /* Center the images horizontally */
-            align-items: center;
-            
-        }
-        .slideshow-header {
-            top: 0px;
-
-            background-color: #2a3d66;  /* Blue background */
-            color: white;
-            padding: 15px;
-            text-align: center;
-            width: 690px; /* Same width as the slideshow container */
-            font-size: 18px;
-            position: absolute;
-            height: 47.5px;
-            z-index: 2;
-        }
-        .slideshow-header h3 {
-        margin: 10px; /* Remove any default margin */
-        }
-
-        /* Make the images in a row for sliding */
-        .slideshow-images {
-            display: flex;
-            transition: transform 1s ease;  /* Smooth transition for sliding */
-            width: 90%;
-            height: 90%;
-        }
-
-        .mySlides {
-            flex: 0 0 100%;  /* Each image takes up 100% width */
-            height: 90%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .mySlides img {
-            margin-top: 100px;  /* Moves the image down */
-}
-        .slideshow-container img {
-            width: 100%; /* Make the image fill the container's width */
-            height: 100%; /* Make the image fill the container's height */
-            object-fit: contain; /* Ensure the image covers the area while maintaining its aspect ratio */
-            position: fixed;
-        }
-        .arrow {
-            position: absolute;
-            top: 50%;
-            background-color: rgba(224, 224, 224, 0.477);
-            color: rgb(0, 0, 0);
-            padding: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            border-radius: 50%;
-            z-index: 10;
-        }
-
-        .left-arrow {
-            left: 10px;
-            transform: translateY(-50%);
-        }
-
-        .right-arrow {
-            right: 10px;
-            transform: translateY(-50%);
-        }
-        /* Circle Navigation (dots) */
-        .dots-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px; /* Adjust space between the slideshow and dots */
-            position: fixed;
-            bottom: 110px;  /* Position the dots at the bottom of the slideshow container */
-            left: 27%;
-            transform: translateX(-50%);
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #c2c2c2;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .active-dot {
-            background-color: #2a3d66;
-        }
-
-        /* Right half for chat content */
-        .content-container {
-            flex: 1;
-            padding: 20px;
-            background-color: #f7f7f7;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        .chatbox {
-            position: fixed;
-            bottom: 80px;
-            right: 100px;
-            width: 700px;
-            height: 700px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .chatbox-header {
-            background-color: #2a3d66;
-            color: white;
-            padding: 5px;
-            text-align: center;
-            font-size: 18px;
-        }
-        .chatbox-body {
-            padding: 10px;
-            flex-grow: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-        .chatbox-footer {
-            display: flex;
-            padding: 10px;
-            background-color: #f7f7f7;
-            border-top: 1px solid #ccc;
-        }
-        .chatbox-footer input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-right: 10px;
-        }
-        .chatbox-footer button {
-            background-color: #2a3d66;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .chatbox-footer button:hover {
-            background-color: #1d2a3b;
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <div class="nav-left">
-            <a href="/">
-                <img src="../media/Hoos_Lost.png" alt="Logo">
-            </a>
-            Hoos Lost
-            </div>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="chatbox.html">Chat</a>
-            <a href="allitems.html">All Items</a>
-          </div>
-      </nav>
-
-    <div class="container">
-        <h2>Chat with our support assistant for further help! </h2>
-        
-    </div>
-
-    <!-- Chatbox Section -->
-    <div class="chatbox">
-        <div class="chatbox-header">
-            <h3>Hoo Needs Help</h3>
-        </div>
-        <div class="chatbox-body" id="chatbox-body">
-            <!-- Messages will be added here dynamically -->
-        </div>
-        <div class="chatbox-footer">
-            <input type="text" id="user-input" placeholder="Type a message...">
-            <button id="send-btn">Send</button>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('send-btn').addEventListener('click', function() {
-            var userInput = document.getElementById('user-input').value;
-            if (userInput.trim() !== '') {
-                var messageDiv = document.createElement('div');
-                messageDiv.classList.add('user-message');
-                messageDiv.textContent = userInput;
-                document.getElementById('chatbox-body').appendChild(messageDiv);
-                document.getElementById('user-input').value = '';
-
-                // Simulate AI response
-                setTimeout(function() {
-                    var aiResponseDiv = document.createElement('div');
-                    aiResponseDiv.classList.add('ai-message');
-                    aiResponseDiv.textContent = "AI: I'm here to help! What can I assist you with?";
-                    document.getElementById('chatbox-body').appendChild(aiResponseDiv);
-                    document.getElementById('chatbox-body').scrollTop = document.getElementById('chatbox-body').scrollHeight;
-                }, 1000);
+        <style>
+            body {
+                font-family: 'Rubik', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #ffd0a9;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
             }
-        });
-    </script>
-</body>
-<body>
-    <!-- Slideshow Section on the left -->
-    <div class="slideshow-container">
-        <div class="slideshow-container">
-            <div class="slideshow-header">
-                <h3>Recently Found Items</h3>
+
+            .container h2 {
+                margin-top: 6px;
+                font-size: 32px;
+            }
+
+            nav {
+                background-color: #000;
+                color: white;
+                padding: 16px 32px;
+                font-size: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-left {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-left img {
+                height: 40px;
+                margin-right: 12px;
+            }
+
+            .nav-links a {
+                color: white;
+                margin-left: 20px;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+            /* Main container holding both the chatbox and slideshow */
+            .main-content {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                height: 100%;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            /* Left half for the slideshow */
+            .slideshow-container {
+                position: relative;
+                width: 48vw;
+                /* Fixed width 48% of the viewport */
+                height: 80vh;
+                /* Fixed height 80% of the viewport */
+                margin: 10px;
+                overflow: hidden;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 10px;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* Inner div for slideshow content */
+            .slideshow-inner {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .slideshow-header {
+                position: absolute;
+                top: 0;
+                background-color: #2a3d66;
+                color: white;
+                padding: 15px;
+                text-align: center;
+                width: 100%;
+                font-size: 18px;
+                z-index: 2;
+            }
+
+            .slideshow-images {
+                display: flex;
+                transition: transform 1s ease;
+                width: 100%;
+                height: 100%;
+            }
+
+            .mySlides {
+                flex: 0 0 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+
+            .slideshow-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            .arrow {
+                position: absolute;
+                top: 50%;
+                background-color: rgba(224, 224, 224, 0.477);
+                color: rgb(0, 0, 0);
+                padding: 15px;
+                font-size: 24px;
+                cursor: pointer;
+                border-radius: 50%;
+                z-index: 10;
+            }
+
+            .left-arrow {
+                left: 10px;
+                transform: translateY(-50%);
+            }
+
+            .right-arrow {
+                right: 10px;
+                transform: translateY(-50%);
+            }
+
+            /* Circle Navigation (dots) */
+            .dots-container {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                position: absolute;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 2;
+            }
+
+            .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: #c2c2c2;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            .active-dot {
+                background-color: #2a3d66;
+            }
+
+            /* Right half for chat content */
+            .chatbox {
+                position: relative;
+                width: 48vw;
+                /* Fixed width 48% of the viewport */
+                height: 80vh;
+                /* Fixed height 80% of the viewport */
+                margin: 10px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column;
+            }
+
+            .chatbox-header {
+                background-color: #2a3d66;
+                color: white;
+                padding: 5px;
+                text-align: center;
+                font-size: 18px;
+            }
+
+            .chatbox-body {
+                padding: 10px;
+                flex-grow: 1;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .chatbox-footer {
+                display: flex;
+                padding: 10px;
+                background-color: #f7f7f7;
+                border-top: 1px solid #ccc;
+            }
+
+            .chatbox-footer input {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-right: 10px;
+            }
+
+            .chatbox-footer button {
+                background-color: #2a3d66;
+                color: white;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .chatbox-footer button:hover {
+                background-color: #1d2a3b;
+            }
+
+            /* Media Queries for smaller screens */
+            @media (max-width: 768px) {
+                .main-content {
+                    flex-direction: column;
+                }
+
+                .slideshow-container,
+                .chatbox {
+                    width: 100%;
+                    /* Full width on smaller screens */
+                    height: 50vh;
+                    /* Adjust height for mobile */
+                }
+            }
+        </style>
+    </header>
+
+    <body>
+        <nav>
+            <div class="nav-left">
+                <a href="/">
+                    <img src="../media/Hoos_Lost.png" alt="Logo">
+                </a>
+                Hoos Lost
             </div>
-        <div class ="slideshow-images"
-            <-- 10 Images for the slideshow -->
-            <div class="mySlides fade">
-                <img src="../media/airpods.jpeg" alt="Image 1">
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="chatbox.html">Chat</a>
+                <a href="allitems.html">All Items</a>
             </div>
-            <div class="mySlides fade">
-                <img src="../media/Hoos_Lost.png" alt="Image 2">
+        </nav>
+
+        <div class="container">
+            <h2>Chat with our support assistant for further help!</h2>
+        </div>
+
+        <div class="main-content">
+            <!-- Chatbox Section -->
+            <div class="chatbox">
+                <div class="chatbox-header">
+                    <h3>Hoo Needs Help</h3>
+                </div>
+                <div class="chatbox-body" id="chatbox-body">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                <div class="chatbox-footer">
+                    <input type="text" id="user-input" placeholder="Type a message...">
+                    <button id="send-btn">Send</button>
+                </div>
             </div>
-            <div class="mySlides fade">
-                <img src="../media/airpods.jpeg" alt="Image 3">
-            </div>
-            <div class="mySlides fade">
-                <img src="../media/Hoos_Lost.png" alt="Image 4">
-            </div>
-            <div class="mySlides fade">
-                <img src="../media/airpods.jpeg" alt="Image 5">
-            </div>
-            <div class="mySlides fade">
-                <img src="../media/Hoos_Lost.png" alt="Image 4">
+
+            <!-- Slideshow Section -->
+            <div class="slideshow-container">
+                <div class="slideshow-inner">
+                    <div class="slideshow-header">
+                        <h3>Recently Found Items</h3>
+                    </div>
+                    <div class="slideshow-images">
+                        <!-- 10 Images for the slideshow -->
+                        <div class="mySlides fade">
+                            <img src="../media/airpods.jpeg" alt="Image 1">
+                        </div>
+                        <div class="mySlides fade">
+                            <img src="../media/Hoos_Lost.png" alt="Image 2">
+                        </div>
+                        <div class="mySlides fade">
+                            <img src="../media/airpods.jpeg" alt="Image 3">
+                        </div>
+                        <div class="mySlides fade">
+                            <img src="../media/Hoos_Lost.png" alt="Image 4">
+                        </div>
+                        <div class="mySlides fade">
+                            <img src="../media/airpods.jpeg" alt="Image 5">
+                        </div>
+                        <div class="mySlides fade">
+                            <img src="../media/Hoos_Lost.png" alt="Image 6">
+                        </div>
+                    </div>
+                    <span class="arrow left-arrow" onclick="moveSlide(-1)">&#10094;</span>
+                    <span class="arrow right-arrow" onclick="moveSlide(1)">&#10095;</span>
+                </div>
             </div>
         </div>
-        <span class="arrow left-arrow" onclick="moveSlide(-1)">&#10094;</span>
-        <span class="arrow right-arrow" onclick="moveSlide(1)">&#10095;</span>
-    </div>
-    <div class="dots-container" id="dots-container">
-        <!-- Dots will be dynamically generated here -->
-    </div>
-    <script>
-        let slideIndex = 0;
-        let slides = document.getElementsByClassName("mySlides");
-        let slideshowImages = document.querySelector(".slideshow-images");
-        let autoSlide;  // Variable to store the auto-slideshow interval
-        let inactivityTimer;  // Timer for inactivity period
-        let dotsContainer = document.getElementById("dots-container");
 
-        // Function to show the slides automatically
-        function showSlides() {
-            slideIndex++;
-            if (slideIndex >= slides.length) {
-                slideIndex = 0;
-            }
-            slideshowImages.style.transition = 'transform 1s ease';  // Smooth transition
-            slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;  // Move to the next slide
-            updateActiveDot();  // Update active dot
-            autoSlide = setTimeout(showSlides, 3000);
-        }
+        <div class="dots-container" id="dots-container">
+            <!-- Dots will be dynamically generated here -->
+        </div>
 
-        // Move the slide based on the direction clicked (left or right)
-        function moveSlide(direction) {
-            clearTimeout(autoSlide);  // Stop the automatic slideshow
-            slideIndex += direction;
-            if (slideIndex < 0) slideIndex = slides.length - 1;  // Loop back to the last slide if at the first slide
-            if (slideIndex >= slides.length) slideIndex = 0;  // Loop back to the first slide if at the last slide
-            slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;
-            updateActiveDot();
-            resetInactivityTimer();
-        }
-          // Update the active dot when the slide changes
-          function updateActiveDot() {
-            let dots = document.querySelectorAll(".dot");
-            dots.forEach((dot, index) => {
-                if (index === slideIndex) {
-                    dot.classList.add("active-dot");
-                } else {
-                    dot.classList.remove("active-dot");
+        <script>
+            document.getElementById('send-btn').addEventListener('click', function () {
+                var userInput = document.getElementById('user-input').value;
+                if (userInput.trim() !== '') {
+                    var messageDiv = document.createElement('div');
+                    messageDiv.classList.add('user-message');
+                    messageDiv.textContent = userInput;
+                    document.getElementById('chatbox-body').appendChild(messageDiv);
+                    document.getElementById('user-input').value = '';
+
+                    // Simulate AI response
+                    setTimeout(function () {
+                        var aiResponseDiv = document.createElement('div');
+                        aiResponseDiv.classList.add('ai-message');
+                        aiResponseDiv.textContent = "AI: I'm here to help! What can I assist you with?";
+                        document.getElementById('chatbox-body').appendChild(aiResponseDiv);
+                        document.getElementById('chatbox-body').scrollTop = document.getElementById('chatbox-body').scrollHeight;
+                    }, 1000);
                 }
             });
-        }
-        function resetInactivityTimer() {
-            clearTimeout(inactivityTimer);  // Clear the existing timer
-            inactivityTimer = setTimeout(() => {
-                showSlides();  // Restart the slideshow after inactivity (e.g., after 5 seconds)
-            }, 5000);  // 5 seconds of inactivity before slideshow resumes
-        }
-        // Create dots for navigation and assign click functionality
-        function createDots() {
-    for (let i = 0; i < slides.length; i++) {
-        let dot = document.createElement("div");
-        dot.classList.add("dot");
-        dot.addEventListener("click", () => {
-            slideIndex = i;
-            slideshowImages.style.transition = 'transform 1s ease';  // Smooth transition
-            slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;  // Jump to the selected slide
-            updateActiveDot();  // Update active dot
-            clearTimeout(autoSlide);  // Stop automatic slideshow when a dot is clicked
-            resetInactivityTimer();  // Reset inactivity timer
-        });
-        dotsContainer.appendChild(dot);
-    }
-    updateActiveDot();  // Set the active dot on load
-}
 
-        createDots();  // Initialize dots navigation
-        showSlides();
-        window.addEventListener('mousemove', resetInactivityTimer);
-        window.addEventListener('keydown', resetInactivityTimer);
-    </script>
-</body>
+            let slideIndex = 0;
+            let slides = document.getElementsByClassName("mySlides");
+            let slideshowImages = document.querySelector(".slideshow-images");
+            let autoSlide;
+            let inactivityTimer;
+            let dotsContainer = document.getElementById("dots-container");
+
+            function showSlides() {
+                slideIndex++;
+                if (slideIndex >= slides.length) {
+                    slideIndex = 0;
+                }
+                slideshowImages.style.transition = 'transform 1s ease';
+                slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;
+                updateActiveDot();
+                autoSlide = setTimeout(showSlides, 3000);
+            }
+
+            function moveSlide(direction) {
+                clearTimeout(autoSlide);
+                slideIndex += direction;
+                if (slideIndex < 0) slideIndex = slides.length - 1;
+                if (slideIndex >= slides.length) slideIndex = 0;
+                slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;
+                updateActiveDot();
+                resetInactivityTimer();
+            }
+
+            function updateActiveDot() {
+                let dots = document.querySelectorAll(".dot");
+                dots.forEach((dot, index) => {
+                    if (index === slideIndex) {
+                        dot.classList.add("active-dot");
+                    } else {
+                        dot.classList.remove("active-dot");
+                    }
+                });
+            }
+
+            function resetInactivityTimer() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(() => {
+                    showSlides();
+                }, 5000);
+            }
+
+            function createDots() {
+                for (let i = 0; i < slides.length; i++) {
+                    let dot = document.createElement("div");
+                    dot.classList.add("dot");
+                    dot.addEventListener("click", () => {
+                        slideIndex = i;
+                        slideshowImages.style.transition = 'transform 1s ease';
+                        slideshowImages.style.transform = `translateX(-${slideIndex * 100}%)`;
+                        updateActiveDot();
+                        clearTimeout(autoSlide);
+                        resetInactivityTimer();
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+                updateActiveDot();
+            }
+
+            createDots();
+            showSlides();
+            window.addEventListener('mousemove', resetInactivityTimer);
+            window.addEventListener('keydown', resetInactivityTimer);
+        </script>
+    </body>
+
 </html>
