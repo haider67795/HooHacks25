@@ -17,18 +17,16 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 # Function to sanitize file names: remove spaces and trim
 def sanitize_filename(filename):
-    # Replace spaces with underscores and trim any leading/trailing whitespace
     sanitized_filename = filename.replace(" ", "_").strip()
     return sanitized_filename
 
-# Route to serve images from the uploads folder (user-uploaded images)
+# Route to serve images from the uploads folder
 @app.route('/uploads/<filename>')
 def upload_file(filename):
-    # Sanitize the filename before serving it
     sanitized_filename = sanitize_filename(filename)
     return send_from_directory(app.config['UPLOAD_FOLDER'], sanitized_filename)
 
-# Route to serve images from the media folder (static images like placeholders)
+# Route to serve images from the media folder (static images)
 @app.route('/media/<filename>')
 def media_file(filename):
     return send_from_directory(app.config['MEDIA_FOLDER'], filename)
@@ -36,35 +34,31 @@ def media_file(filename):
 # Home route
 @app.route('/')
 def home():
-    return render_template('index.html')  # Make sure 'index.html' exists in the templates folder
+    return render_template('index.html')
 
 # Route for All Items page
 @app.route('/allitems.html')
 def all_items():
-    return render_template('allitems.html')  # Make sure 'allitems.html' exists in the templates folder
+    return render_template('allitems.html')
 
 # Route for Chatbox page
 @app.route('/chatbox.html')
 def chatbox():
-    return render_template('chatbox.html')  # Make sure 'chatbox.html' exists in the templates folder
+    return render_template('chatbox.html')
 
 # API route to report a lost item
 @app.route('/api/report', methods=['POST'])
 def report_item():
-    # Get data from the form
     description = request.form.get('description')
     location = request.form.get('location')
     photo = request.files.get('photo')
 
-    # Save the uploaded photo with sanitized filename (remove spaces)
     if photo:
-        # Sanitize the filename to handle spaces and special characters
         photo_filename = sanitize_filename(photo.filename)
         photo.save(os.path.join(app.config['UPLOAD_FOLDER'], photo_filename))
     else:
         photo_filename = None
 
-    # Insert the item data into the database
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
@@ -72,46 +66,44 @@ def report_item():
         SELECT * FROM items WHERE description = ? AND location = ? AND photo_filename = ?
     ''', (description, location, photo_filename))
     
-    existing_item = cursor.fetchone()  # Fetch one result (if any)
+    existing_item = cursor.fetchone()
     message = ""
     if existing_item:
-        message = "Item already exists in the database!"
+        message = "Item already exists!"
     else:
-        # If not found, insert the new item
         cursor.execute('''
             INSERT INTO items (description, location, photo_filename) 
             VALUES (?, ?, ?)
         ''', (description, location, photo_filename))
 
-        # Commit the transaction to save the data
         conn.commit()
-        message = "Item data inserted successfully!"
-
-    conn.commit()
+        message = "Item added successfully!"
     conn.close()
-
-    # Run the cleanup function to remove unused photos from the uploads folder
-    remove_unused_photos()
 
     return jsonify({"message": message})
 
-# API route to fetch the top 3 most recently added items
-@app.route('/api/top_items', methods=['GET'])
+# API route to fetch top items with a limit
+@app.route('/api/top_items', methods=['POST'])
 def get_top_items():
-    # Connect to the database
+    data = request.get_json() 
+    limit = data.get("limit")
+
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-    # Fetch the top 3 most recent items sorted by timestamp (latest first)
-    cursor.execute('''
-        SELECT id, description, location, photo_filename, timestamp FROM items
-        ORDER BY timestamp DESC LIMIT 3
-    ''')
+    if limit == -1:
+        cursor.execute('''
+            SELECT id, description, location, photo_filename, timestamp FROM items
+            ORDER BY timestamp DESC
+        ''')
+    else:
+        cursor.execute('''
+            SELECT id, description, location, photo_filename, timestamp FROM items
+            ORDER BY timestamp DESC LIMIT 3
+        ''',)
 
-    # Get the results
     items = cursor.fetchall()
     
-    # Convert the results to a list of dictionaries
     top_items = []
     for item in items:
         top_items.append({
@@ -126,24 +118,59 @@ def get_top_items():
 
     return jsonify({"top_items": top_items})
 
-# Function to remove unused photos from the uploads folder based on the database query
-def remove_unused_photos():
-    # Connect to the database
+# API route to remove an item from the database
+@app.route('/api/remove_item/<int:item_id>', methods=['DELETE'])
+def remove_item(item_id):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-    # Get all photo filenames from the database
-    cursor.execute('SELECT photo_filename FROM items WHERE photo_filename IS NOT NULL')
-    used_photos = {row[0] for row in cursor.fetchall()}
+    # Fetch the photo filename associated with the item to be deleted
+    cursor.execute('''
+        SELECT photo_filename FROM items WHERE id = ?
+    ''', (item_id,))
+    item = cursor.fetchone()
+
+    if item:
+        photo_filename = item[0]
+
+        # Delete the item from the database
+        cursor.execute('''
+            DELETE FROM items WHERE id = ?
+        ''', (item_id,))
+
+        # Commit the changes to the database
+        conn.commit()
+
+        # Remove the photo file if no other item is using it
+        remove_unused_photo(photo_filename)
+
+        message = f"Item {item_id} and its photo {photo_filename} removed successfully!"
+    else:
+        message = f"Item {item_id} not found."
 
     conn.close()
 
-    # Check files in the uploads folder
-    for filename in os.listdir(app.config['UPLOAD_FOLDER']):
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        if filename not in used_photos and os.path.isfile(file_path):
-            os.remove(file_path)  # Delete the unused photo
-            print(f"Removed unused photo: {filename}")
+    return jsonify({"message": message})
+
+# Function to remove the photo if it is not used by any other item
+def remove_unused_photo(photo_filename):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    # Check if any other items are using the same photo
+    cursor.execute('''
+        SELECT COUNT(*) FROM items WHERE photo_filename = ?
+    ''', (photo_filename,))
+    count = cursor.fetchone()[0]
+
+    # If no other items are using the photo, delete the photo from the uploads folder
+    if count == 0 and photo_filename:
+        photo_path = os.path.join(app.config['UPLOAD_FOLDER'], photo_filename)
+        if os.path.exists(photo_path):
+            os.remove(photo_path)  # Remove the photo file
+            print(f"Removed unused photo: {photo_filename}")
+
+    conn.close()
 
 if __name__ == '__main__':
     app.run(debug=True)

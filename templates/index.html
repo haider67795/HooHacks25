@@ -440,16 +440,27 @@
     alert("Please upload a photo.");
   }
 });
+  function fetchTopItems(limit) {
+    // Construct the URL with the limit parameter
+    const url = `/api/top_items`;
 
-function fetchTopItems() {
-        fetch('/api/top_items')  // Call the Flask API to get top 3 items
-            .then(response => response.json())
-            .then(data => {
-                const items = data.top_items;
-                displayItems(items);  // Call function to display items on the page
-            })
-            .catch(error => console.error('Error fetching top items:', error));
-    }
+    // Make the fetch request and send the limit as a parameter in the body
+    fetch(url, {
+      method: 'POST',  // Use POST since we are sending data in the body
+      headers: {
+        'Content-Type': 'application/json'  // Set the correct content type for JSON
+      },
+      body: JSON.stringify({ "limit": limit })  // Send the limit parameter as JSON
+    })
+      .then(response => response.json())  // Parse the response as JSON
+      .then(data => {
+        items = data.top_items;
+        displayItems(items);  // Call function to display items on the page
+      })
+      .catch(error => {
+        console.error('Error fetching top items:', error);
+      });
+  }
 
      // Function to display items dynamically in the HTML
         function displayItems(items) {
