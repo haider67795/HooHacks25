@@ -74,7 +74,7 @@ def talkToGemini():
 
     # Build a message for Gemini using the item descriptions
     items_list = "\n".join([f"ID: {item[0]}, Description: {item[1]}" for item in items])
-    user_message = f"{user_message} Here is the list of items:\n{items_list}\n\nUsing this list, which item matches the closest to my message? Only return the ID of the matching item. If nothing matches, say 'I cannot find your lost item, sorry!'"
+    user_message = f"{user_message} Here is the list of items:\n{items_list}\n\nUsing this list, which item matches the closest to my message? Only return the ID of the matching item. If nothing matches, say 'I cannot find your lost item, sorry!' Make sure the match makes sense, remeber when it is a reach just to be on the safer side say the apology"
 
     # Send the message to the Gemini API
     response = client.models.generate_content(
