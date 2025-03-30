@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>All Reported Items</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -56,7 +57,7 @@
     .card {
       background-color: white;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       width: 300px;
       overflow: hidden;
     }
@@ -94,6 +95,7 @@
     }
   </style>
 </head>
+
 <body>
   <nav>
     <div class="nav-left">
@@ -111,36 +113,85 @@
   <div class="card-container" id="all-items-container"></div>
 
   <script>
-    const allItems = JSON.parse(localStorage.getItem("lostItems") || "[]");
+    // Function to fetch top items based on limit
+    function fetchTopItems(limit) {
+      const url = `/api/top_items`;
 
-    function displayAllItems(items) {
-      const container = document.getElementById('all-items-container');
-      container.innerHTML = '';
-      items.forEach((item, index) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "limit": limit })
+      })
+        .then(response => response.json())
+        .then(data => {
+          const items = data.top_items;
+          displayItems(items);  // Display fetched items
+        })
+        .catch(error => {
+          console.error('Error fetching top items:', error);
+        });
+    }
+
+    // Function to display the items in the HTML
+    function displayItems(items) {
+      const itemList = document.getElementById('all-items-container');
+      itemList.innerHTML = '';  // Clear the existing items first
+
+      // Loop through the fetched items and create HTML for each
+      items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'card';
+
+        // Construct the correct image path for user-uploaded images or fallback to placeholder
+        let imageUrl;
+        if (item.photo_filename) {
+          imageUrl = `/uploads/${item.photo_filename}`;
+        } else {
+          imageUrl = "../media/lost-item-placeholder.jpg";  // Fallback placeholder
+        }
+
+        // Add the item to the card container
         card.innerHTML = `
-          <img src="${item.imageUrl}" alt="Lost item image">
-          <div class="card-content">
-            <h3>${item.name}</h3>
-            <p><strong>Location:</strong> ${item.location}</p>
-            <p>${item.description}</p>
-            <button onclick="markAsSeen(${index})">Mark as Seen</button>
-          </div>
-        `;
-        container.appendChild(card);
+             <img src="${imageUrl}" alt="Lost item image">
+             <div class="card-content">
+                 <h3>${item.description}</h3>
+                 <p><strong>Location:</strong> ${item.location}</p>
+                 <p>${item.description}</p>
+                 <button class="seen-button" data-id="${item.id}">Seen</button>
+             </div>`;
+
+        itemList.appendChild(card);
+
+        // Add an event listener to the "Seen" button
+        card.querySelector('.seen-button').addEventListener('click', function () {
+          const itemId = item.id;
+          deleteItem(itemId);  // Call function to delete the item from the database
+        });
       });
     }
 
-    function markAsSeen(index) {
-      let items = JSON.parse(localStorage.getItem("lostItems") || "[]");
-      items[index].seen = true;
-      localStorage.setItem("lostItems", JSON.stringify(items));
-      displayAllItems(items.filter(item => !item.seen));
+    // Function to delete an item when the "Seen" button is clicked
+    function deleteItem(itemId) {
+      fetch(`/api/remove_item/${itemId}`, {
+        method: 'DELETE',
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert('Item removed from the database!');
+          fetchTopItems(-1);  // Fetch all items after removal
+        })
+        .catch(error => {
+          console.error('Error removing item:', error);
+        });
     }
 
-    // Show only items not marked as "seen"
-    displayAllItems(allItems.filter(item => !item.seen));
+    // Fetch and display all items when the page loads
+    window.onload = function () {
+      fetchTopItems(-1);  // Fetch all items
+    };
   </script>
 </body>
+
 </html>
